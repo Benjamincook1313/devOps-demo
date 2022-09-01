@@ -4,7 +4,7 @@ const path = require('path')
 require("dotenv").config()
 const cors = require("cors")
 
-const { ROLLBARTOKEN } = process.env
+const { ROLLBARTOKEN, PORT } = process.env
 
 app.use(express.json())
 app.use(cors())
@@ -38,6 +38,7 @@ app.get('/api/students', (req, res) => {
 
 app.post('/api/students', (req, res) => {
    let {name} = req.body
+   rollbar.log(name)
 
    const index = students.findIndex(student => {
        return student === name
@@ -66,6 +67,6 @@ app.delete('/api/students/:index', (req, res) => {
 
 })
 
-const port = process.env.PORT || 5050
+const port = process.env.PORT
 
 app.listen(port, () => console.log(`Server listening on ${port}`))
